@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>謝佑祥｜名片</title>
+<meta name="description" content="勝利室內裝修工作室 設計總監 謝佑祥的名片，可直接存到手機。">
+<meta property="og:title" content="謝佑祥｜勝利室內裝修工作室">
+<meta property="og:description" content="設計總監｜點開即可把名片存到手機">
+<meta property="og:image" content="https://adan3862936.github.io/card/card.jpg">
+<meta property="og:type" content="profile">
+<meta name="theme-color" content="#1FA8F0">
+<style>
+  :root {
+    --ink: #17202A;
+    --paper: #FFFFFF;
+    --blue: #1FA8F0;
+    --blue-dark: #0B7FC2;
+    --muted: #5E6B78;
+    --wash: #EEF7FD;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--wash);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+    min-height: 100dvh;
+    display: flex;
+    justify-content: center;
+    padding: max(16px, env(safe-area-inset-top)) 16px max(24px, env(safe-area-inset-bottom));
+  }
+  main { width: 100%; max-width: 440px; display: flex; flex-direction: column; gap: 16px; }
+  figure { margin: 0; }
+  .card {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1080 / 1920;
+    border-radius: 20px;
+    background: var(--paper);
+    box-shadow: 0 10px 30px rgba(11, 127, 194, 0.18);
+    -webkit-touch-callout: default;
+  }
+  .save {
+    appearance: none;
+    border: 0;
+    border-radius: 999px;
+    background: var(--blue);
+    color: #fff;
+    font: inherit;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 16px 20px;
+    width: 100%;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    box-shadow: 0 6px 16px rgba(31, 168, 240, 0.35);
+    transition: transform 120ms ease, background 120ms ease;
+  }
+  .save:hover { background: var(--blue-dark); }
+  .save:active { transform: scale(0.98); }
+  .save:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+  .hint { margin: 0; font-size: 14px; line-height: 1.7; color: var(--muted); text-align: center; }
+  .status { min-height: 1.4em; margin: 0; font-size: 14px; text-align: center; color: var(--blue-dark); }
+</style>
+</head>
+<body>
+<main>
+  <figure>
+    <img class="card" src="card.jpg" width="1080" height="1920"
+         alt="謝佑祥名片：勝利室內裝修工作室 設計總監、土木技師背景，電話 0909-767-886，LINE ID adan3862936，台中市西屯區，winning0602.com">
+  </figure>
+  <a class="save" id="save" href="card.jpg" download="謝佑祥_名片.jpg">儲存名片到手機</a>
+  <p class="status" id="status" role="status" aria-live="polite"></p>
+  <p class="hint">iPhone：按上方按鈕後選「儲存影像」，或長按名片選「加入照片」<br>Android：按上方按鈕下載，或長按名片選「下載圖片」</p>
+</main>
+<script>
+(() => {
+  const button = document.getElementById('save');
+  const status = document.getElementById('status');
+
+  // Prefer the system share sheet: on iPhone it offers "儲存影像" straight into Photos.
+  button.addEventListener('click', async (event) => {
+    if (!navigator.canShare || !window.File) return;   // fall back to the plain download link
+    event.preventDefault();
+    try {
+      const response = await fetch(button.href);
+      if (!response.ok) throw new Error('HTTP ' + response.status);
+      const blob = await response.blob();
+      const file = new File([blob], '謝佑祥_名片.jpg', { type: 'image/jpeg' });
+      if (!navigator.canShare({ files: [file] })) {
+        window.location.href = button.href;
+        return;
+      }
+      await navigator.share({ files: [file], title: '謝佑祥｜名片' });
+      status.textContent = '';
+    } catch (error) {
+      if (error && error.name === 'AbortError') return;   // the viewer closed the share sheet
+      status.textContent = '無法開啟分享選單，請長按名片圖片儲存。';
+    }
+  });
+})();
+</script>
+</body>
+</html>
